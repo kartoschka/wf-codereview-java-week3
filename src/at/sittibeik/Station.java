@@ -1,12 +1,11 @@
 package at.sittibeik;
 
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class Station {
+class Station {
     private static int MAX_STATION_ID = 0;
 
     private int id;
@@ -21,27 +20,27 @@ public class Station {
     }
 
     int getId() { return id; }
-    public String getLocation() { return location; }
+    String getLocation() { return location; }
 
     String formatRentableList() {
-        return formatList(b -> b.isRentable());
+        return formatList(Bike::isRentable);
     }
 
-    String formatList(Predicate<Bike> filterFun) {
+    private String formatList(Predicate<Bike> filterFun) {
         String header = String.format("Beiks die wos grade do san in da Station %d/\"%s\" die wos du nehman kaunst:\n", id, location);
         String bikeList = bikes.values().stream()
                 .filter(filterFun)
-                .sorted((b1, b2) -> Integer.compare(b1.getId(), b2.getId()))
+                .sorted(Comparator.comparingInt(Bike::getId))
                 .map(b -> String.format("  Bike %d, %s", b.getId(), b.getColor()))
                 .collect(Collectors.joining("\n"));
         return header + bikeList;
     }
 
-    int numberOfFreeSlots() {
+    private int numberOfFreeSlots() {
         return capacity - bikes.size();
     }
 
-    boolean hasFreeSlots() {
+    private boolean hasFreeSlots() {
         return numberOfFreeSlots() > 0;
     }
 
@@ -66,7 +65,7 @@ public class Station {
         }
     }
 
-    boolean hasBike(Bike bike) {
+    private boolean hasBike(Bike bike) {
         return bikes.containsKey(bike.getId());
     }
 }

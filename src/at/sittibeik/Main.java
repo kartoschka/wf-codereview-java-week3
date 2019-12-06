@@ -18,7 +18,7 @@ public class Main {
         runBikeRentalDemo(exampleUsers[1], bikeRentalExampleStation, exampleBikes[7]);
     }
 
-    static void runBikeRentalDemo(User user, Station station, Bike bike) {
+    private static void runBikeRentalDemo(User user, Station station, Bike bike) {
         System.out.print("It is a cold rainy night in the dirty streets of Vienna, and ");
         System.out.printf("%s %s ", user.getName(), user.getSurname());
         System.out.printf("is standing at the sitybeik station %d/%s ", station.getId(), station.getLocation());
@@ -43,9 +43,10 @@ public class Main {
         System.out.println(station.formatRentableList());
         System.out.println("\"\"\"");
         System.out.println();
+        System.out.printf("%s swiftly sweeps into the bike seat. Bon voyage, %s!\n", user.getName(), user.getName());
     }
 
-    static Bike[] createBikes() {
+    private static Bike[] createBikes() {
         return new Bike[]{
                 new Bike("red"),
                 new Bike("black"),
@@ -58,13 +59,13 @@ public class Main {
         };
     }
 
-    static HashMap<Integer, Bike> createBikeMap(Bike[] bikes) {
+    private static HashMap<Integer, Bike> createBikeMap(Bike[] bikes) {
         HashMap<Integer, Bike> map = new HashMap<>();
         for (Bike b : bikes) map.put(b.getId(), b);
         return map;
     }
 
-    static User[] createUsers() {
+    private static User[] createUsers() {
         return new User[] {
             new User("Günther", "Faulenbacher"),
             new User("Maximilian", "Schweinsgericht"),
@@ -73,7 +74,7 @@ public class Main {
         };
     }
 
-    static Station[] createStations() {
+    private static Station[] createStations() {
         return new Station[]{
                 new Station("Grunzinger Straße 7", 22),
                 new Station("Kotzendorfer Platz 18-20", 15),
@@ -81,7 +82,7 @@ public class Main {
         };
     }
 
-    static void fillStationWithBikes(Station s, Bike[] bs) {
+    private static void fillStationWithBikes(Station s, Bike[] bs) {
         for (Bike b : bs) {
             try {
                 s.addBike(b);
@@ -91,7 +92,7 @@ public class Main {
         }
     }
 
-    static HashMap<Integer, Station> createStationMap(Station[] stations) {
+    private static HashMap<Integer, Station> createStationMap(Station[] stations) {
         HashMap<Integer, Station> map = new HashMap<>();
         for (Station b : stations) map.put(b.getId(), b);
         return map;

@@ -16,7 +16,7 @@ class Bike {
     }
 
     int getId() { return id; }
-    public String getColor() { return color; }
+    String getColor() { return color; }
 
     void setRented(int userId) {
         state = BikeState.RENTED;
