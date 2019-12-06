@@ -1,2 +1,3 @@
 # Project exclude paths
 /out/
+.attach_pid*
