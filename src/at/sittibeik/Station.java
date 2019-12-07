@@ -21,6 +21,7 @@ class Station {
 
     int getId() { return id; }
     String getLocation() { return location; }
+    HashMap<Integer, Bike> getBikes() { return bikes; }
 
     String formatRentableList() {
         return formatList(Bike::isRentable);
@@ -47,25 +48,20 @@ class Station {
     void addBike(Bike b) throws StationFullException {
         assert bikes.size() <= capacity;
         if(!hasFreeSlots()) throw new StationFullException();
+        if(hasBike(b)) throw new IllegalStateException("bike already exists at station: " + b.getId());
 
         b.setParked();
         bikes.put(b.getId(), b);
         System.out.println("successfully parked bike " + b.getId());
     }
 
-    void rentBike(User user, Bike bike) {
-        if(bike.isRentable() && this.hasBike(bike) && !user.hasBike()) {
-            bikes.remove(bike.getId());
-            bike.setRented(user.getId());
-            user.setRented(bike.getId());
-            System.out.printf("Rented bike %d to user %s %s (%d).\n",
-                    bike.getId(), user.getName(), user.getSurname(), user.getId());
-        } else {
-            throw new BikeNotRentableException();
-        }
+    void removeBike(Bike bike) {
+        if(!hasBike(bike)) throw new IllegalStateException("cannot remove Bike which does not exist at Station");
+        bikes.remove(bike.getId());
+        bike.setPending();
     }
 
-    private boolean hasBike(Bike bike) {
+    boolean hasBike(Bike bike) {
         return bikes.containsKey(bike.getId());
     }
 }

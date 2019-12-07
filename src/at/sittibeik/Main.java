@@ -13,12 +13,15 @@ public class Main {
         HashMap<Integer, Station> stationMap = createStationMap(exampleStations);
 
         Station bikeRentalExampleStation = exampleStations[2];
+        Station bikeRentalExampleReturnStation = exampleStations[1];
         fillStationWithBikes(bikeRentalExampleStation,
                 new Bike[]{exampleBikes[0], exampleBikes[1], exampleBikes[6], exampleBikes[7]});
-        runBikeRentalDemo(exampleUsers[1], bikeRentalExampleStation, exampleBikes[7]);
+        fillStationWithBikes(bikeRentalExampleReturnStation,
+                new Bike[]{exampleBikes[2], exampleBikes[3], exampleBikes[5]});
+        runBikeRentalDemo(exampleUsers[1], bikeRentalExampleStation, exampleBikes[7], bikeRentalExampleReturnStation);
     }
 
-    private static void runBikeRentalDemo(User user, Station station, Bike bike) {
+    private static void runBikeRentalDemo(User user, Station station, Bike bike, Station station2) {
         System.out.print("It is a cold rainy night in the dirty streets of Vienna, and ");
         System.out.printf("%s %s ", user.getName(), user.getSurname());
         System.out.printf("is standing at the sitybeik station %d/%s ", station.getId(), station.getLocation());
@@ -34,8 +37,14 @@ public class Main {
                 user.getName(), bike.getId(), bike.getColor());
         System.out.println();
         System.out.println("\"\"\"");
-        station.rentBike(user, bike);
+        String preRentStr = bike.toString();
+        Rental rental = new Rental(user, bike, station);
+        String postRentStr = bike.toString();
         System.out.println("\"\"\"");
+        System.out.println();
+        System.out.println("Bike info before and after renting:");
+        System.out.println(preRentStr);
+        System.out.println(postRentStr);
         System.out.println();
         System.out.println("Now the list of available bikes reads:");
         System.out.println();
@@ -44,6 +53,26 @@ public class Main {
         System.out.println("\"\"\"");
         System.out.println();
         System.out.printf("%s swiftly sweeps into the bike seat. Bon voyage, %s!\n", user.getName(), user.getName());
+        System.out.println();
+        System.out.print("After a long, perilous journey at the mercy of the 75cm-wide Fahrradstreifen, ");
+        System.out.printf("%s finally arrives at destination station %d/\"%s\" and returns the bike.\n",
+                user.getName(), station2.getId(), station2.getLocation());
+        System.out.println();
+        System.out.println("\"\"\"");
+        System.out.println(station2.formatRentableList());
+        System.out.println("\"\"\"");
+        System.out.println();
+        String preChoutStr = bike.toString();
+        rental.checkOut(station2);
+        String postChoutStr = bike.toString();
+        System.out.println();
+        System.out.println("\"\"\"");
+        System.out.println(station2.formatRentableList());
+        System.out.println("\"\"\"");
+        System.out.println();
+        System.out.println("Bike info before and after checkout:");
+        System.out.println(preChoutStr);
+        System.out.println(postChoutStr);
     }
 
     private static Bike[] createBikes() {

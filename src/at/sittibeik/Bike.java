@@ -18,6 +18,11 @@ class Bike {
     int getId() { return id; }
     String getColor() { return color; }
 
+    @Override
+    public String toString() {
+        return String.format("Bike { id: %d, color: %s, state: %s, rented-by: %d }", id, color, state, rentedByUserId);
+    }
+
     void setRented(int userId) {
         state = BikeState.RENTED;
         rentedByUserId = userId;
@@ -28,7 +33,15 @@ class Bike {
         rentedByUserId = null;
     }
 
+    void setPending() {
+        state = BikeState.PENDING;
+    }
+
     boolean isRentable() {
         return state == BikeState.PARKED;
+    }
+
+    boolean isRented() {
+        return state == BikeState.RENTED;
     }
 }
