@@ -21,6 +21,8 @@ class Rental {
         checkIn();
     }
 
+    LocalDateTime getRentEnd() { return rentEnd; }
+
     private void checkIn() {
         originStation.removeBike(bike);
         user.setRented(bike.getId());
